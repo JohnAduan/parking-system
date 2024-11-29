@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Page</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .parking-lot {
+            width: 802px; /* Adjusted width */
+            border: 2px solid #333;
+            background-color: #ccc;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            position: relative; /* Ensures the left-road is positioned inside */
+            padding-left: 50px; /* Added left padding to accommodate left-road */
+        }
+
+        .parking-space {
+            width: 140px;
+            height: 130px;
+            border: 1px solid #333;
+            margin: 5px;
+            background-color: green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .occupied {
+            background-color: red;
+        }
+
+        .slot-label {
+            position: absolute;
+            bottom: 5px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .floor-label {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .road-sign {
+            width: 600px;
+            height: 100px;
+            background-color: black;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .road-sign::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: repeating-linear-gradient(
+                to right,
+                white 0,
+                white 30px,
+                black 20px,
+                black 40px
+            );
+            transform: translateY(-50%);
+        }
+
+        /* Vertical Road on the Right Side */
+        .vertical-road {
+            width: 150px; /* Wider road */
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            top: 0;
+            right: 0; /* Positioning the road to the right side */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            border-top-left-radius: 50px; /* Curved top-left */
+            border-top-right-radius: 50px; /* Curved top-left */
+        }
+
+        /* Styling for the vertical break line inside the vertical road */
+        .vertical-road::before {
+            content: '';
+            position: absolute;
+            top: 60px; /* Adjusted to create space from the top */
+            left: 50%; /* Centering the line vertically */
+            width: 4px;
+            height: 91%; /* Reduced height to make the line shorter */
+            background: repeating-linear-gradient(
+                to bottom,
+                white 0,
+                white 70px,
+                black 30px,
+                black 60px
+            );
+        }
+
+        /* Text for Entrance and Exit */
+        .vertical-road .label {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            position: absolute;
+            top: 93%; /* Vertically center the label */
+            transform: translateY(-50%) rotate(90deg); /* Rotate the text */
+        }
+
+        /* Adjust positioning of Entrance and Exit */
+        .entrance {
+            left: 70px; /* Slightly move Entrance to the left of the break line */
+        }
+
+        .exit {
+            left: 20px; /* Slightly move Exit to the right of the break line */
+        }
+
+        /* Road on the Left Side of Slots 1, 4, and 9 */
+        .left-road {
+            position: absolute;
+            width: 50px;
+            height: 510px;
+            background-color: black;
+            border-top-left-radius: 30px; /* Curved top-left */
+            top: 1;
+            bottom: 0;
+        }
+
+        .left-road.slot1 {
+            left: 0; /* Adjusted to fit inside parking lot */
+        }
+
+        .left-road.slot4 {
+            left: 0; /* Adjusted to fit inside parking lot */
+        }
+
+        .left-road.slot9 {
+            left: 0; /* Adjusted to fit inside parking lot */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="parking-lot" id="ground-floor">
+        <div class="floor-label">Ground Floor</div>
+        <div class="parking-space" id="slot1">
+            <div class="slot-label">Slot 1</div>
+        </div>
+        <div class="parking-space" id="slot2">
+            <div class="slot-label">Slot 2</div>
+        </div>
+        <div class="parking-space" id="slot3">
+            <div class="slot-label">Slot 3</div>
+        </div>
+        <div class="parking-space" id="slot4">
+            <div class="slot-label">Slot 4</div>
+        </div>
+        <div class="road-sign"></div>
+        <div class="parking-space" id="slot5">
+            <div class="slot-label">Slot 5</div>
+        </div>
+        <div class="parking-space" id="slot6">
+            <div class="slot-label">Slot 6</div>
+        </div>
+        <div class="parking-space" id="slot7">
+            <div class="slot-label">Slot 7</div>
+        </div>
+        <div class="parking-space" id="slot8">
+            <div class="slot-label">Slot 8</div>
+        </div>
+        <div class="parking-space" id="slot9">
+            <div class="slot-label">Slot 9</div>
+        </div>
+        <div class="parking-space" id="slot10">
+            <div class="slot-label">Slot 10</div>
+        </div>
+        <div class="parking-space" id="slot11">
+            <div class="slot-label">Slot 11</div>
+        </div>
+        <div class="parking-space" id="slot12">
+            <div class="slot-label">Slot 12</div>
+        </div>
+        <div class="road-sign"></div>
+
+        <!-- Left Road Next to Slot 1, 4, 9 -->
+        <div class="left-road slot1"></div>
+        <div class="left-road slot4"></div>
+        <div class="left-road slot9"></div>
+        
+        <!-- Vertical Road on the Right Side -->
+        <div class="vertical-road">
+            <div class="label entrance">Entrance</div>
+            <div class="label exit">Exit</div>
+        </div>
+    </div>
+    <script>
+        const ws = new WebSocket("wss://your-repl-url.replit.app");
+
+        ws.onopen = function() {
+            console.log('WebSocket Connected');
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Received data: ', event.data); // Debugging: Check received data
+            let sensorData = event.data.trim().split(','); // Split by comma to separate sensor statuses
+            sensorData.forEach((status, index) => {
+                const slot = document.getElementById(`slot${index + 1}`);
+                if (slot) {  // Check if the slot exists
+                    if (status === '1') { // Occupied
+                        slot.classList.add('occupied');
+                    } else { // Available
+                        slot.classList.remove('occupied');
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
