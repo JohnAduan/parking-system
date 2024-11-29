@@ -17,14 +17,14 @@
         }
 
         .parking-lot {
-            width: 802px; /* Adjusted width */
+            width: 802px;
             border: 2px solid #333;
             background-color: #ccc;
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
-            position: relative; /* Ensures the left-road is positioned inside */
-            padding-left: 50px; /* Added left padding to accommodate left-road */
+            position: relative;
+            padding-left: 50px;
         }
 
         .parking-space {
@@ -83,30 +83,28 @@
             transform: translateY(-50%);
         }
 
-        /* Vertical Road on the Right Side */
         .vertical-road {
-            width: 150px; /* Wider road */
+            width: 150px;
             height: 100%;
             background-color: black;
             position: absolute;
             top: 0;
-            right: 0; /* Positioning the road to the right side */
+            right: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically */
-            align-items: center; /* Center horizontally */
-            border-top-left-radius: 50px; /* Curved top-left */
-            border-top-right-radius: 50px; /* Curved top-left */
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
         }
 
-        /* Styling for the vertical break line inside the vertical road */
         .vertical-road::before {
             content: '';
             position: absolute;
-            top: 60px; /* Adjusted to create space from the top */
-            left: 50%; /* Centering the line vertically */
+            top: 60px;
+            left: 50%;
             width: 4px;
-            height: 91%; /* Reduced height to make the line shorter */
+            height: 91%;
             background: repeating-linear-gradient(
                 to bottom,
                 white 0,
@@ -116,48 +114,44 @@
             );
         }
 
-        /* Text for Entrance and Exit */
         .vertical-road .label {
             color: white;
             font-size: 1.2rem;
             font-weight: bold;
             position: absolute;
-            top: 93%; /* Vertically center the label */
-            transform: translateY(-50%) rotate(90deg); /* Rotate the text */
+            top: 93%;
+            transform: translateY(-50%) rotate(90deg);
         }
 
-        /* Adjust positioning of Entrance and Exit */
         .entrance {
-            left: 70px; /* Slightly move Entrance to the left of the break line */
+            left: 70px;
         }
 
         .exit {
-            left: 20px; /* Slightly move Exit to the right of the break line */
+            left: 20px;
         }
 
-        /* Road on the Left Side of Slots 1, 4, and 9 */
         .left-road {
             position: absolute;
             width: 50px;
             height: 510px;
             background-color: black;
-            border-top-left-radius: 30px; /* Curved top-left */
+            border-top-left-radius: 30px;
             top: 1;
             bottom: 0;
         }
 
         .left-road.slot1 {
-            left: 0; /* Adjusted to fit inside parking lot */
+            left: 0;
         }
 
         .left-road.slot4 {
-            left: 0; /* Adjusted to fit inside parking lot */
+            left: 0;
         }
 
         .left-road.slot9 {
-            left: 0; /* Adjusted to fit inside parking lot */
+            left: 0;
         }
-        
     </style>
 </head>
 <body>
@@ -201,34 +195,31 @@
             <div class="slot-label">Slot 12</div>
         </div>
         <div class="road-sign"></div>
-
-        <!-- Left Road Next to Slot 1, 4, 9 -->
         <div class="left-road slot1"></div>
         <div class="left-road slot4"></div>
         <div class="left-road slot9"></div>
-        
-        <!-- Vertical Road on the Right Side -->
         <div class="vertical-road">
             <div class="label entrance">Entrance</div>
             <div class="label exit">Exit</div>
         </div>
     </div>
+
     <script>
-        const ws = new WebSocket("wss://WebSocketServer.replit.app");
+        const ws = new WebSocket("wss://WebSocket.parking-system.repl.co:3000");
 
         ws.onopen = function() {
             console.log('WebSocket Connected');
         };
 
         ws.onmessage = function(event) {
-            console.log('Received data: ', event.data); // Debugging: Check received data
-            let sensorData = event.data.trim().split(','); // Split by comma to separate sensor statuses
+            console.log('Received data: ', event.data);
+            let sensorData = event.data.trim().split(','); 
             sensorData.forEach((status, index) => {
                 const slot = document.getElementById(`slot${index + 1}`);
-                if (slot) {  // Check if the slot exists
-                    if (status === '1') { // Occupied
+                if (slot) {  
+                    if (status === '1') { 
                         slot.classList.add('occupied');
-                    } else { // Available
+                    } else { 
                         slot.classList.remove('occupied');
                     }
                 }
